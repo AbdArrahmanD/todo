@@ -1,3 +1,0 @@
-class GitTest {
-  String tst = '';
-}
