@@ -61,14 +61,95 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             const SizedBox(height: 10),
             Expanded(
-                child: Container(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              margin: const EdgeInsets.only(left: 30, right: 30),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: primaryClr,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: primaryClr,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.format_color_text_rounded,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            'Title',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        _payLoad.split('|')[0],
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.description,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            'Description',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        _payLoad.split('|')[1],
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                        textAlign: TextAlign.justify,
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            'Date',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        _payLoad.split('|')[2],
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            )),
+            ),
             const SizedBox(height: 10),
           ],
         ),
