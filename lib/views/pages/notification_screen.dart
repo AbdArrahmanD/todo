@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo/views/theme.dart';
+
+import '../theme.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({required this.payLoad, Key? key}) : super(key: key);
