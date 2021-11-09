@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'services/theme_services.dart';
-import 'views/pages/home_page.dart';
+import 'views/pages/add_task_page.dart';
 import 'views/theme.dart';
 
 void main() {
@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeServices().theme,
         title: 'ToDo',
         debugShowCheckedModeBanner: false,
-        home: const HomePage());
+        home: const AddTaskPage());
   }
 }
