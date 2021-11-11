@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/views/widgets/button.dart';
 
 import '../../controllers/task_controller.dart';
 import '../size_config.dart';
@@ -80,7 +81,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: InputField(
                       title: 'EndTime Time',
@@ -99,69 +100,134 @@ class _AddTaskPageState extends State<AddTaskPage> {
               InputField(
                   title: 'Remind',
                   hint: '$selectedRemind min early',
-                  widget: DropdownButton(
-                    dropdownColor: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(10),
-                    items: remindList
-                        .map<DropdownMenuItem<String>>(
-                          (int e) => DropdownMenuItem<String>(
-                            value: e.toString(),
-                            child: Text(
-                              e.toString(),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.grey,
-                    ),
-                    iconSize: 32,
-                    elevation: 4,
-                    underline: Container(height: 0),
-                    style: subTitleStyle,
-                    onChanged: (String? newVal) {
-                      setState(() {
-                        selectedRemind = int.parse(newVal!);
-                      });
-                    },
+                  widget: Row(
+                    children: [
+                      DropdownButton(
+                        dropdownColor: Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(10),
+                        items: remindList
+                            .map<DropdownMenuItem<String>>(
+                              (int e) => DropdownMenuItem<String>(
+                                value: e.toString(),
+                                child: Text(
+                                  e.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.grey,
+                        ),
+                        iconSize: 32,
+                        elevation: 4,
+                        underline: Container(height: 0),
+                        style: subTitleStyle,
+                        onChanged: (String? newVal) {
+                          setState(() {
+                            selectedRemind = int.parse(newVal!);
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      )
+                    ],
                   )),
               InputField(
                   title: 'Repeat',
                   hint: selectedRepeat,
-                  widget: DropdownButton(
-                    dropdownColor: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(10),
-                    items: repeatList
-                        .map<DropdownMenuItem<String>>(
-                          (String e) => DropdownMenuItem<String>(
-                            value: e,
-                            child: Text(
-                              e,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.grey,
-                    ),
-                    iconSize: 32,
-                    elevation: 4,
-                    underline: Container(height: 0),
-                    style: subTitleStyle,
-                    onChanged: (String? newVal) {
-                      setState(() {
-                        selectedRepeat = newVal!;
-                      });
-                    },
+                  widget: Row(
+                    children: [
+                      DropdownButton(
+                        dropdownColor: Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(10),
+                        items: repeatList
+                            .map<DropdownMenuItem<String>>(
+                              (String e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(
+                                  e,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.grey,
+                        ),
+                        iconSize: 32,
+                        elevation: 4,
+                        underline: Container(height: 0),
+                        style: subTitleStyle,
+                        onChanged: (String? newVal) {
+                          setState(() {
+                            selectedRepeat = newVal!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      )
+                    ],
                   )),
+              const SizedBox(height: 18),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  colorPalette(),
+                  MyButton(label: 'Create Task', onTap: () {})
+                ],
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Column colorPalette() {
+    return Column(
+      children: [
+        Text(
+          'Color',
+          style: titleStyle,
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          children: List.generate(
+            3,
+            (index) => GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedColor = index;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  radius: 16,
+                  child: selectedColor == index
+                      ? const Icon(
+                          Icons.done,
+                          size: 16,
+                          color: Colors.white,
+                        )
+                      : null,
+                  backgroundColor: index == 0
+                      ? primaryClr
+                      : index == 1
+                          ? pinkClr
+                          : orangeClr,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
