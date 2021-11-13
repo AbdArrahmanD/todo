@@ -1,12 +1,13 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/views/pages/add_task_page.dart';
 import 'package:todo/views/theme.dart';
 import '../size_config.dart';
 import '../widgets/button.dart';
-import '../widgets/input_field.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Container(),
           taskBar(),
+          addDateBar(),
         ],
       ),
     );
@@ -87,6 +90,50 @@ class _HomePageState extends State<HomePage> {
                 ThemeServices().switchThemeMode();
               }),
         ],
+      ),
+    );
+  }
+
+  addDateBar() {
+    return Container(
+      margin: const EdgeInsets.only(
+        left: 20,
+        right: 10,
+        top: 10,
+      ),
+      child: DatePicker(
+        DateTime.now(),
+        width: 70,
+        height: 100,
+        selectionColor: primaryClr,
+        selectedTextColor: Colors.white,
+        onDateChange: (newDate) {
+          setState(() {
+            selectedDate = newDate;
+          });
+        },
+        initialSelectedDate: DateTime.now(),
+        dateTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
+        monthTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
+        dayTextStyle: GoogleFonts.lato(
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
+        ),
       ),
     );
   }
