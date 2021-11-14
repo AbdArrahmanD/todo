@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           Container(),
           taskBar(),
           addDateBar(),
+          showTasks(),
         ],
       ),
     );
@@ -137,4 +139,46 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Expanded showTasks() => Expanded(child: noTaskMsg());
+
+  noTaskMsg() => Stack(
+        children: [
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 500),
+            child: SingleChildScrollView(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                direction: SizeConfig.orientation == Orientation.portrait
+                    ? Axis.vertical
+                    : Axis.horizontal,
+                children: [
+                  SizeConfig.orientation == Orientation.landscape
+                      ? const SizedBox(height: 6)
+                      : const SizedBox(height: 220),
+                  SvgPicture.asset(
+                    'assets/images/task.svg',
+                    height: 90,
+                    semanticsLabel: 'Task',
+                    color: primaryClr.withOpacity(0.5),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: Text(
+                      'You Don\'t Have Any Task Yet!\nAdd new Task to make your day Productive',
+                      style: subTitleStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizeConfig.orientation == Orientation.landscape
+                      ? const SizedBox(height: 120)
+                      : const SizedBox(height: 180),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
 }
