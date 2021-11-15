@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/views/pages/add_task_page.dart';
 import 'package:todo/views/theme.dart';
@@ -18,6 +19,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late NotifyHelper notifyHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializationNotification();
+    notifyHelper.requestIOSPermission();
+  }
+
   DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -57,7 +68,12 @@ class _HomePageState extends State<HomePage> {
             color: Get.isDarkMode ? Colors.white : Colors.black,
             size: 24,
           ),
-          onPressed: () => ThemeServices().switchThemeMode(),
+          onPressed: () {
+            ThemeServices().switchThemeMode();
+            notifyHelper.displayNotification(
+                title: 'To Do', body: 'Theme Switched');
+            notifyHelper.schedulerNotification();
+          },
         ),
       );
 

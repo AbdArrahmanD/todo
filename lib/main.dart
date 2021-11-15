@@ -7,6 +7,8 @@ import 'views/theme.dart';
 
 void main() {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  // NotifyHelper().initializationNotification();
 }
 
 class MyApp extends StatelessWidget {
