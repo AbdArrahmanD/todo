@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/models/task.dart';
 import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
 import 'package:todo/views/pages/add_task_page.dart';
 import 'package:todo/views/theme.dart';
+import 'package:todo/views/widgets/task_tile.dart';
 import '../size_config.dart';
 import '../widgets/button.dart';
 
@@ -156,7 +158,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Expanded showTasks() => Expanded(child: noTaskMsg());
+  Expanded showTasks() => Expanded(
+        child: TaskTile(
+          Task(
+            title: 'Title',
+            note:
+                'Sint culpa qui pariatur anim nostrud cupidatat eu incididunt sit pariatur aute ipsum occaecat.',
+            isCompleted: 0,
+            startTime: '8:10',
+            endTime: '2:30',
+            color: 1,
+          ),
+        ),
+      );
 
   noTaskMsg() => Stack(
         children: [
