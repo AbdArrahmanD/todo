@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     notifyHelper = NotifyHelper();
-    notifyHelper.initializationNotification();
-    notifyHelper.requestIOSPermission();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
   }
 
   DateTime selectedDate = DateTime.now();
@@ -75,9 +75,9 @@ class _HomePageState extends State<HomePage> {
           ),
           onPressed: () {
             ThemeServices().switchThemeMode();
-            notifyHelper.displayNotification(
-                title: 'To Do', body: 'Theme Switched');
-            notifyHelper.schedulerNotification();
+            // notifyHelper.displayNotification(
+            //     title: 'To Do', body: 'Theme Switched');
+            // notifyHelper.schedulerNotification();
           },
         ),
       );
@@ -167,7 +167,21 @@ class _HomePageState extends State<HomePage> {
               ? Axis.horizontal
               : Axis.vertical,
           itemBuilder: (context, index) {
-            var task = _taskController.taskList[index];
+            Task task = _taskController.taskList[index];
+            var hour = task.startTime.toString().split(':')[0];
+            var minutes = task.startTime.toString().split(':')[1];
+
+            debugPrint('My Time is : ' + hour);
+            debugPrint('My Minutes is : ' + minutes);
+
+            var date = DateFormat.jm().parse(task.startTime!);
+            var myTime = DateFormat('HH:mm').format(date);
+
+            notifyHelper.scheduledNotification(
+              int.parse(myTime.split(':')[0]),
+              int.parse(myTime.split(':')[1]),
+              task,
+            );
             return AnimationConfiguration.staggeredList(
               position: index,
               duration: const Duration(seconds: 2),
