@@ -1,9 +1,11 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/controllers/task_controller.dart';
 import 'package:todo/models/task.dart';
 import 'package:todo/services/notification_services.dart';
 import 'package:todo/services/theme_services.dart';
@@ -32,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   DateTime selectedDate = DateTime.now();
+  final TaskController _taskController = Get.put(TaskController());
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -159,31 +162,29 @@ class _HomePageState extends State<HomePage> {
   }
 
   Expanded showTasks() => Expanded(
-        child: GestureDetector(
-          onTap: () {
-            showBottomSheet(
-                context,
-                Task(
-                  title: 'Title',
-                  note:
-                      'Sint culpa qui pariatur anim nostrud cupidatat eu incididunt sit pariatur aute ipsum occaecat.',
-                  isCompleted: 0,
-                  startTime: '8:10',
-                  endTime: '2:30',
-                  color: 1,
-                ));
+        child: ListView.builder(
+          scrollDirection: SizeConfig.orientation == Orientation.landscape
+              ? Axis.horizontal
+              : Axis.vertical,
+          itemBuilder: (context, index) {
+            var task = _taskController.taskList[index];
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(seconds: 2),
+              child: SlideAnimation(
+                horizontalOffset: 300,
+                child: FadeInAnimation(
+                  child: GestureDetector(
+                    onTap: () => showBottomSheet(context, task),
+                    child: TaskTile(
+                      task,
+                    ),
+                  ),
+                ),
+              ),
+            );
           },
-          child: TaskTile(
-            Task(
-              title: 'Title',
-              note:
-                  'Sint culpa qui pariatur anim nostrud cupidatat eu incididunt sit pariatur aute ipsum occaecat.',
-              isCompleted: 0,
-              startTime: '8:10',
-              endTime: '2:30',
-              color: 1,
-            ),
-          ),
+          itemCount: _taskController.taskList.length,
         ),
       );
 
