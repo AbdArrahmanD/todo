@@ -17,13 +17,12 @@ class DBHelper {
             onCreate: (Database db, int version) async {
           // When creating the db, create the table
           await db.execute(
-            'CREATE TABLE $_tabelName ('
-            'id INTEGER PRIMARY KEY AUTOINCREMENT, '
+            'CREATE TABLE $_tabelName (id INTEGER PRIMARY KEY AUTOINCREMENT, '
             'title STRING, note TEXT, date STRING, '
-            'startTime STRING, endTime STRING, )'
-            'remind INT, repeat STRING, )'
-            'color INTEGER )'
-            'isComplete INTEGER )',
+            'startTime STRING, endTime STRING, '
+            'remind INTEGER, repeat STRING, '
+            'color INTEGER '
+            'isComplete INTEGER)',
           );
         });
       } catch (e) {
