@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/models/task.dart';
 import 'package:todo/views/widgets/button.dart';
 
 import '../../controllers/task_controller.dart';
@@ -180,7 +181,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   colorPalette(),
-                  MyButton(label: 'Create Task', onTap: () {})
+                  MyButton(label: 'Create Task', onTap: () => validateData())
                 ],
               )
             ],
@@ -188,6 +189,40 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
       ),
     );
+  }
+
+  validateData() {
+    if (titleController.text.isNotEmpty && noteController.text.isNotEmpty) {
+      addTaskToDb();
+      Get.back();
+    } else if (titleController.text.isEmpty || noteController.text.isEmpty) {
+      Get.snackbar('Field Required', '',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: white,
+          colorText: pinkClr,
+          icon: const Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.red,
+          ));
+    } else {
+      print('##########  Some Thing Went Wrong  #############');
+    }
+  }
+
+  addTaskToDb() async {
+    int? value = await taskController.addTask(
+        task: Task(
+      title: titleController.text,
+      note: noteController.text,
+      color: selectedColor,
+      date: DateFormat.yMd().format(selectedDate),
+      endTime: endTime,
+      startTime: startTime,
+      isCompleted: 0,
+      remind: selectedRemind,
+      repeat: selectedRepeat,
+    ));
+    print(value);
   }
 
   AppBar appBar() => AppBar(
