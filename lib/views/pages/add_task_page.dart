@@ -65,7 +65,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     Icons.calendar_today_outlined,
                     color: Colors.grey,
                   ),
-                  onPressed: () {},
+                  onPressed: () => getDatefromUser(),
                 ),
               ),
               Row(
@@ -79,21 +79,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           Icons.access_time_rounded,
                           color: Colors.grey,
                         ),
-                        onPressed: () {},
+                        onPressed: () => getTimeFromUser(true),
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: InputField(
-                      title: 'EndTime Time',
+                      title: 'End Time',
                       hint: endTime,
                       widget: IconButton(
                         icon: const Icon(
                           Icons.access_time_rounded,
                           color: Colors.grey,
                         ),
-                        onPressed: () {},
+                        onPressed: () => getTimeFromUser(false),
                       ),
                     ),
                   ),
@@ -288,5 +288,38 @@ class _AddTaskPageState extends State<AddTaskPage> {
         )
       ],
     );
+  }
+
+  getDatefromUser() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015),
+        lastDate: DateTime(2030));
+
+    if (pickedDate != null)
+      setState(() => selectedDate = pickedDate);
+    else
+      print('it\'s Null or Something went Wrong');
+  }
+
+  getTimeFromUser(bool isStartTime) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: isStartTime
+          ? TimeOfDay.fromDateTime(DateTime.now())
+          : TimeOfDay.fromDateTime(
+              DateTime.now().add(
+                const Duration(minutes: 15),
+              ),
+            ),
+    );
+    String formattedTime = pickedTime!.format(context);
+    if (isStartTime)
+      setState(() => startTime = formattedTime);
+    else if (!isStartTime)
+      setState(() => endTime = formattedTime);
+    else
+      print('it\'s Null or Something went Wrong');
   }
 }
