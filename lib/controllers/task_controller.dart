@@ -1,62 +1,25 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:todo/db/db_helper.dart';
 import 'package:todo/models/task.dart';
 
 class TaskController extends GetxController {
-  List taskList = <Task>[
-    Task(
-      id: 0,
-      title: 'Title 1',
-      color: 0,
-      note: 'Aliqua qui irure nulla ex tempor et Lorem aliquip.',
-      startTime: DateFormat('hh:mm a').format(
-        DateTime.now().add(
-          const Duration(minutes: 1),
-        ),
-      ),
-      endTime: '9:20',
-      isCompleted: 0,
-    ),
-    Task(
-      id: 0,
-      title: 'Title 2',
-      color: 1,
-      note: 'Aliqua qui irure nulla ex tempor et Lorem aliquip.',
-      startTime: DateFormat('hh:mm a').format(
-        DateTime.now().add(
-          const Duration(minutes: 1),
-        ),
-      ),
-      endTime: '9:20',
-      isCompleted: 1,
-    ),
-    Task(
-      id: 0,
-      title: 'Title 3',
-      color: 2,
-      note: 'Aliqua qui irure nulla ex tempor et Lorem aliquip.',
-      startTime: DateFormat('hh:mm a').format(
-        DateTime.now().add(
-          const Duration(minutes: 1),
-        ),
-      ),
-      endTime: '9:20',
-      isCompleted: 1,
-    ),
-    Task(
-      id: 0,
-      title: 'Title 1',
-      color: 1,
-      note: 'Aliqua qui irure nulla ex tempor et Lorem aliquip.',
-      startTime: DateFormat('hh:mm a').format(
-        DateTime.now().add(
-          const Duration(minutes: 1),
-        ),
-      ),
-      endTime: '9:20',
-      isCompleted: 0,
-    ),
-  ];
-  addTask({Task? task}) {}
-  getTask() {}
+  RxList<Task> taskList = <Task>[].obs;
+  Future<int> addTask({Task? task}) {
+    return DBHelper.insert(task);
+  }
+
+  Future<void> getTask() async {
+    final List<Map<String, dynamic>> tasks = await DBHelper.query();
+    taskList.assignAll(tasks.map((e) => Task.fromJson(e)).toList());
+  }
+
+  void deleteTasks(Task task) async {
+    await DBHelper.delete(task);
+    getTask();
+  }
+
+  void markTaskAsCompleted(int id) async {
+    await DBHelper.update(id);
+    getTask();
+  }
 }

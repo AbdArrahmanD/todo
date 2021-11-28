@@ -214,13 +214,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
         task: Task(
       title: titleController.text,
       note: noteController.text,
-      color: selectedColor,
       date: DateFormat.yMd().format(selectedDate),
-      endTime: endTime,
+      color: selectedColor,
       startTime: startTime,
-      isCompleted: 0,
+      endTime: endTime,
       remind: selectedRemind,
       repeat: selectedRepeat,
+      isCompleted: 0,
     ));
     print(value);
   }

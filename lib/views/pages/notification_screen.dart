@@ -23,6 +23,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         title: Text(
           _payLoad.split('|')[0],
@@ -32,7 +33,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.white : darkGreyClr,
+          ),
           onPressed: () => Get.back(),
         ),
       ),
