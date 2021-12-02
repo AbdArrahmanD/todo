@@ -250,6 +250,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   Column colorPalette() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Color',

@@ -308,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                     taskController.deleteTasks(task);
                     Get.back();
                   },
-                  color: primaryClr),
+                  color: Colors.red[300]!),
               Divider(
                 color: Get.isDarkMode ? Colors.grey : darkGreyClr,
               ),
