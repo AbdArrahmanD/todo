@@ -6,9 +6,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:todo/views/pages/notification_screen.dart';
 
 import '/models/task.dart';
+import '../views/pages/notification_screen.dart';
 
 class NotifyHelper {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -89,11 +89,14 @@ class NotifyHelper {
 
   tz.TZDateTime _nextInstanceOfTenAM(int hour, int minutes) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    print('tz.local : ${tz.local}');
+    print('now : $now');
     tz.TZDateTime scheduledDate =
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
+    print('scheduledDate : $scheduledDate');
     return scheduledDate;
   }
 
