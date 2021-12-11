@@ -36,6 +36,11 @@ class DBHelper {
     return await _db!.delete(tabelName, where: 'id = ?', whereArgs: [task.id]);
   }
 
+  static Future<int> deleteAll() async {
+    print('Delete All Function Called');
+    return await _db!.delete(tabelName);
+  }
+
   static Future<List<Map<String, dynamic>>> query() async {
     print('Query Function Called');
     return await _db!.query(tabelName);

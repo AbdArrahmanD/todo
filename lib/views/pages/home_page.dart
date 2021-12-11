@@ -57,14 +57,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   AppBar appBar() => AppBar(
-        actions: const [
-          CircleAvatar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.cleaning_services_outlined,
+              color: Get.isDarkMode ? Colors.white : Colors.black,
+              size: 24,
+            ),
+            onPressed: () {
+              taskController.deleteAllTasks();
+            },
+          ),
+          const CircleAvatar(
             backgroundImage: AssetImage(
               'assets/images/person.jpeg',
             ),
             radius: 18,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
         ],
         elevation: 0,
         centerTitle: true,
@@ -198,10 +208,20 @@ class _HomePageState extends State<HomePage> {
                       task,
                     );
                     if (task.repeat == 'Daily' ||
-                        task.date == DateFormat.yMd().format(selectedDate)) {
+                        task.date == DateFormat.yMd().format(selectedDate) ||
+                        (task.repeat == 'Weekly' &&
+                            selectedDate
+                                        .difference(
+                                            DateFormat.yMd().parse(task.date!))
+                                        .inDays %
+                                    7 ==
+                                0) ||
+                        (task.repeat == 'Monthly' &&
+                            selectedDate.day ==
+                                DateFormat.yMd().parse(task.date!).day)) {
                       return AnimationConfiguration.staggeredList(
                         position: index,
-                        duration: const Duration(seconds: 2),
+                        duration: const Duration(milliseconds: 300),
                         child: SlideAnimation(
                           horizontalOffset: 300,
                           child: FadeInAnimation(
@@ -305,6 +325,7 @@ class _HomePageState extends State<HomePage> {
               _buildBottomSheet(
                   label: 'Delete',
                   onTap: () {
+                    NotifyHelper().cancelNotification(task);
                     taskController.deleteTasks(task);
                     Get.back();
                   },
