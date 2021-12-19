@@ -73,6 +73,11 @@ class NotifyHelper {
     print('${task.id} has been deleted');
   }
 
+  cancelAllNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+    print('All Notificatios have been deleted');
+  }
+
   scheduledNotification(int hour, int minutes, Task task) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
       task.id!,
@@ -109,8 +114,9 @@ class NotifyHelper {
     print('tz.local : ${tz.local}');
     print('now : $now');
     var formattedDate = DateFormat.yMd().parse(date);
+    tz.TZDateTime fd = tz.TZDateTime.from(formattedDate, tz.local);
     tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minutes);
+        tz.TZDateTime(tz.local, fd.year, fd.month, fd.day, hour, minutes);
     scheduledDate = afterRemind(remind, scheduledDate);
     if (scheduledDate.isBefore(now)) {
       if (repeat == 'Daily') {
@@ -118,13 +124,14 @@ class NotifyHelper {
       } else if (repeat == 'Weekly') {
         scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
             (formattedDate.day + 7), hour, minutes);
-      } else if (repeat == 'Weekly') {
+      } else if (repeat == 'Monthly') {
         scheduledDate = tz.TZDateTime(tz.local, now.year,
             (formattedDate.month + 1), formattedDate.day, hour, minutes);
       }
+      scheduledDate = afterRemind(remind, scheduledDate);
     }
-    scheduledDate = afterRemind(remind, scheduledDate);
-    print('scheduledDate : $scheduledDate');
+
+    print('next scheduledDate : $scheduledDate');
     return scheduledDate;
   }
 

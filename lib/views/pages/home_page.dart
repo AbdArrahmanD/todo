@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () {
               taskController.deleteAllTasks();
+              notifyHelper.cancelAllNotification();
             },
           ),
           const CircleAvatar(
